@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="menu.css">
+    <title>Restaurant Menu</title>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">Restaurant Name</h1>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="home1.html">Home</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="reservation.html">Reservations</a></li>
+                    <li><a href="order_online.html">Order Online</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li class="dropdown">
+                        <button class="dropbtn">Login</button>
+                        <div class="dropdown-content">
+                            <a href="admin_login.html">Admin Login</a>
+                            <a href="staff_login.html">Staff Login</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Menu Section -->
+        <section class="menu">
+            <div class="container">
+                <h2 class="section-title">Our Menu</h2>
+
+                <!-- Menu items will be dynamically added here using JavaScript -->
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <!-- Footer content goes here -->
+        </div>
+    </footer>
+
+    <script >
+        document.addEventListener("DOMContentLoaded", function() {
+            // Make an AJAX request to fetch menu items
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "fetch_menu_items.php", true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var menuItems = JSON.parse(xhr.responseText);
+                    displayMenuItems(menuItems);
+                }
+            };
+            xhr.send();
+            
+            // Function to display menu items
+            function displayMenuItems(menuItems) {
+                var menuContainer = document.querySelector(".menu");
+        
+                menuItems.forEach(function(item) {
+                    var menuItem = document.createElement("div");
+                    menuItem.classList.add("menu-item");
+        
+                    menuItem.innerHTML = `
+                        <img src="${item.image_name}" alt="${item.item_name}">
+                        <h3>${item.name}</h3>
+                        <p>${item.description}</p>
+                        <span class="price">₹${item.price}</span>
+                    `;
+        
+                    menuContainer.appendChild(menuItem);
+                });
+            }
+        });
+        
+    </script>
+</body>
+</html>

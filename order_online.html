@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="order_online.css">
+    <title>Order Online</title>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">Restaurant Name</h1>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="home1.html">Home</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="reservation.html">Reservations</a></li>
+                    <li><a href="order_online.html">Order Online</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li class="dropdown">
+                        <button class="dropbtn">Login</button>
+                        <div class="dropdown-content">
+                            <a href="admin_login.html">Admin Login</a>
+                            <a href="staff_login.html">Staff Login</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="order-content">
+        <!-- Order Online Section -->
+        <section class="order-online">
+            <div class="container">
+                <h2 class="section-title">Order Online</h2>
+
+                <!-- Online ordering form goes here -->
+                <form action="process_order.php" method="post">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone:</label>
+                        <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Delivery Address:</label>
+                        <textarea id="address" name="address" rows="4" required></textarea>
+                    </div>
+
+                    <!-- Place the menu items dropdown here, above the "Order" label -->
+                    <div class="form-group">
+                        <label for="order">Order:</label>
+                        
+                    
+
+                    <div class="form-group">
+                       
+                            
+                        <div id="menuItemsPlaceholder"></div>
+                        <input type="text" id="manualOrder" name="manualOrder" placeholder="Enter your order manually in formate of sample:Burger *1,Pasta *2">
+                        
+                    </div>
+                        <button type="submit" class="btn btn-primary">Place Order</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+    <script>
+        // Function to populate the menu dropdown and display menu items
+// Function to populate the menu items list
+function populateMenuItemsList() {
+    // Make a fetch request to fetch menu items with prices from the database
+    fetch("fetch_menu_items_with_prices.php")
+        .then(function(response) {
+            return response.json(); // Parse the response as JSON
+        })
+        .then(function(menuItems) {
+            // Display the menu items in the placeholder
+            var menuItemsPlaceholder = document.getElementById("menuItemsPlaceholder");
+            menuItemsPlaceholder.innerHTML = "<h3>Menu Items</h3>";
+            menuItems.forEach(function(item) {
+                var menuItemElement = document.createElement("div");
+                menuItemElement.textContent = item.name + " - ₹" + item.price;
+                menuItemsPlaceholder.appendChild(menuItemElement);
+            });
+        })
+        .catch(function(error) {
+            console.error("Error fetching menu items:", error);
+        });
+}
+
+// Call the function to populate the menu items list when the page loads
+document.addEventListener("DOMContentLoaded", function() {
+    populateMenuItemsList();
+});
+
+
+    
+    </script>
+</body>
+</html>
+
